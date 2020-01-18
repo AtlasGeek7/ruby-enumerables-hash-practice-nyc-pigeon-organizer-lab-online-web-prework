@@ -1,22 +1,29 @@
 def nyc_pigeon_organizer(data)
-  pigeons = data[:gender][:male].concat(data[:gender][:female])
+  #pigeons = [data[:gender][:male],data[:gender][:female]].flatten
   hash = {}
-  i = 0
-  while i < pigeons.length
+  [data[:gender][:male],data[:gender][:female]].flatten.each do |pigeon|
     subhash = {}
     data.each do |k,v|
       subArr = []
       v.each do |subk,subv|
-        if subv.include?(pigeons[i])
-          subArr << subk.to_s
-          subhash[k] = subArr
-        #else
-          #next
-        end
+        subhash[k] = subArr.push(subk.to_s) if subv.include?(pigeon)
       end
     end
-    hash[pigeons[i]] = subhash
-    i += 1
+    hash[pigeon] = subhash
   end
   return hash
-end 
+end
+##########################################################################
+$hash, $subhash, $subArr = {}, {}, []
+def nyc_pigeon_organizer(data)
+  [data[:gender][:male],data[:gender][:female]].flatten.each {|pigeon| $subhash = {} ; process_data(pigeon,data)}
+  return $hash
+end
+def process_data(pigeon,data)
+  data.each {|k,v| $subArr = []; $hash[pigeon] = fetch_pigeon_data(pigeon,k,v)}
+  return $hash
+end
+def fetch_pigeon_data(pigeon,k,v)
+  v.each {|subk,subv| $subhash[k] = $subArr.push(subk.to_s) if subv.include?(pigeon) }
+  return $subhash
+end
