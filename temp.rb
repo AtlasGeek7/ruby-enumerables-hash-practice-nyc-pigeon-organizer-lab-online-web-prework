@@ -1,7 +1,7 @@
 def nyc_pigeon_organizer(data)
-  #pigeons = [data[:gender][:male],data[:gender][:female]].flatten
+  pigeons = [data[:gender][:male],data[:gender][:female]].flatten
   hash = {}
-  [data[:gender][:male],data[:gender][:female]].flatten.each do |pigeon|
+  pigeons.each do |pigeon|
     subhash = {}
     data.each do |k,v|
       subArr = []
@@ -9,7 +9,7 @@ def nyc_pigeon_organizer(data)
         subhash[k] = subArr.push(subk.to_s) if subv.include?(pigeon)
       end
     end
-    hash[pigeon] = subhash
+  hash[pigeon] = subhash
   end
   return hash
 end
